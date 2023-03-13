@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Isync</string>
+    <string name="g">G</string>
+    <string name="gxxxx">numéro de votre calendrier (gXXXX)</string>
+</resources>

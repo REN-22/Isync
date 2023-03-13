@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Isync</string>
+    <string name="g">G</string>
+    <string name="num_ro_de_votre_calendrier">numéro de votre calendrier</string>
+    <string name="e_mail">e mail</string>
+    <string name="num_ro_de_votre_calendrier_gxxxx">numéro de votre calendrier (gXXXX)</string>
+    <string name="gxxxx">numéro de votre calendrier (gXXXX)</string>
+</resources>
