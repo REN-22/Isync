@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num = inputNum.getText().toString().trim();
                 // Récupérer les préférences partagées
-                SharedPreferences sharedPreferences = getSharedPreferences("mes_preferences", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("isync", MODE_PRIVATE);
 
                 // Éditer les préférences partagées
                 SharedPreferences.Editor editor = sharedPreferences.edit();

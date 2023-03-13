@@ -28,18 +28,37 @@ android {
         exclude 'META-INF/INDEX.LIST'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_16
+        targetCompatibility JavaVersion.VERSION_16
     }
 }
 
 dependencies {
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev305-1.25.0'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev20211207-1.32.1'
+    implementation 'com.google.oauth-client:google-auth-library-oauth2-http:1.2.0'
+    implementation 'com.google.android.gms:play-services-drive:19.0.0'
+    implementation 'com.google.api-client:google-api-client:1.31.5'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.5'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev305-1.31.2'
+    implementation 'net.fortuna.ical4j:ical4j-data:3.0.27'
+    //noinspection UseOfBundledGooglePlayServices
+    implementation 'com.google.android.gms:play-services:19.0.0'
+    implementation 'com.google.api-client:google-api-client:1.31.5'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.5'
+    implementation 'com.google.oauth-client:google-oauth-client:1.31.5'
+    implementation 'com.google.http-client:google-http-client-jackson2:1.38.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:0.26.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'org.mnode.ical4j:ical4j:3.0.27'
 }
+

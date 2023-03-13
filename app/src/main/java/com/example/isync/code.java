@@ -20,8 +20,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 public class code {
+
     public static void exec(Context context, int num) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
@@ -128,4 +128,3 @@ public class code {
     }
 
 }
-

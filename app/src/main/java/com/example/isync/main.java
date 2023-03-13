@@ -43,7 +43,7 @@ public class main {
             long period = 24 * 60 * 60 * 1000;
 
             // Obtenez une instance de SharedPreferences
-            SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences("isync", Context.MODE_PRIVATE);
 
             // Récupérez le numéro et l'adresse e-mail des préférences
             int num = sharedPreferences.getInt("num", 0); // 0 est la valeur par défaut si "num" n'existe pas
