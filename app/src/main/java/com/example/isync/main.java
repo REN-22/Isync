@@ -24,17 +24,13 @@ public class main {
     public static class MonService extends Service {
 
         public int onStartCommand(Intent intent, int flags, int startId, int number) {
-            // Ajoutez votre code ici pour effectuer les opérations souhaitées en arrière-plan
-            // Vous pouvez utiliser des classes comme OkHttpClient pour télécharger le fichier .ics et
-            // utiliser l'API Google Calendar pour mettre à jour les événements
-
             // Création de l'objet pour planifier l'exécution
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
             // Récupération de l'heure actuelle
             Calendar now = Calendar.getInstance();
 
-            // Calcul de l'heure de la première exécution (demain à 5h00)
+            // Calcul de l'heure de la première exécution (demain à 3h00)
             Calendar nextExecutionTime = Calendar.getInstance();
             nextExecutionTime.set(Calendar.HOUR_OF_DAY, 3);
             nextExecutionTime.set(Calendar.MINUTE, 0);
