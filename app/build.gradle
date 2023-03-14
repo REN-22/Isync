@@ -34,6 +34,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.api-client:google-api-client:1.31.5'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.5'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev20210121-1.31.0'
     implementation 'com.google.apis:google-api-services-calendar:v3-rev305-1.25.0'
     implementation 'com.google.apis:google-api-services-drive:v3-rev20211207-1.32.1'
     implementation 'com.google.oauth-client:google-auth-library-oauth2-http:1.2.0'
