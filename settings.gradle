@@ -1,6 +1,7 @@
 pluginManagement {
     repositories {
         mavenCentral()
+        mavenLocal()
         google()
         gradlePluginPortal()
     }
@@ -12,5 +13,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Isync"
 include ':app'

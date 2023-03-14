@@ -22,6 +22,11 @@ import okhttp3.Response;
 
 public class code {
 
+    /**
+     * telecharge le fhichier ICS
+     *
+     * @param num le numéro du fichier ICS
+     */
     public static void exec(Context context, int num) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
@@ -45,7 +50,7 @@ public class code {
                         InputStream inputStream = response.body().byteStream();
                         FileOutputStream outputStream = new FileOutputStream(file);
                         byte[] buffer = new byte[4096];
-                        int bytesRead = -1;
+                        int bytesRead;
                         while ((bytesRead = inputStream.read(buffer)) != -1) {
                             outputStream.write(buffer, 0, bytesRead);
                         }
@@ -60,6 +65,11 @@ public class code {
         }.execute(num);
     }
 
+    /**
+     * modifie le fichier ICS pour que le résultat soi plus lisible
+     *
+     * @param num le numéro du fichier ICS
+     */
     public static void modif(int num) {
         try {
             File file = new File("PASTOUCHE/g" + num + "N.ics");
@@ -126,5 +136,4 @@ public class code {
             e.printStackTrace();
         }
     }
-
 }

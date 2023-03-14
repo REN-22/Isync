@@ -7,6 +7,10 @@ import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.IBinder;
 
+import net.fortuna.ical4j.data.ParserException;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -55,7 +59,25 @@ public class main {
                 public void run() {
                     // Appeler la méthode code() ici
                     code.exec(getApplicationContext(), num);
+                    try {
+                        gogle.deleteAllEvents(num);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ParserException e) {
+                        throw new RuntimeException(e);
+                    } catch (GeneralSecurityException e) {
+                        throw new RuntimeException(e);
+                    }
                     code.modif(num);
+                    try {
+                        gogle.addAllEvents(num);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ParserException e) {
+                        throw new RuntimeException(e);
+                    } catch (GeneralSecurityException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }, nextExecutionTime.getTimeInMillis() - now.getTimeInMillis(), period, TimeUnit.MILLISECONDS);
 

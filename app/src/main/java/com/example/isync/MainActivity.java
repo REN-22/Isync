@@ -11,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.isyncIUT.R;
 
+import net.fortuna.ical4j.data.ParserException;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 public class MainActivity extends AppCompatActivity {
 
     public static int number;
@@ -20,13 +25,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Ajouter le code ici
         EditText inputNum = findViewById(R.id.gXXXXinput);
+        EditText inputmail = findViewById(R.id.Emailinput);
         Button downloadBtn = findViewById(R.id.downloadBtn);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String num = inputNum.getText().toString().trim();
+                String mail = inputmail.getText().toString().trim();
                 // Récupérer les préférences partagées
                 SharedPreferences sharedPreferences = getSharedPreferences("isync", MODE_PRIVATE);
 
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Ajouter les données à sauvegarder
                 editor.putString("numero", num);
-                editor.putString("email", "example@mail.com");
+                editor.putString("email", mail);
 
                 // Enregistrer les modifications
                 editor.apply();
@@ -45,7 +51,25 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     int numInt = Integer.parseInt(num);
                     code.exec(MainActivity.this, numInt);
+                    try {
+                        gogle.deleteAllEvents(numInt);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ParserException e) {
+                        throw new RuntimeException(e);
+                    } catch (GeneralSecurityException e) {
+                        throw new RuntimeException(e);
+                    }
                     code.modif(numInt);
+                    try {
+                        gogle.addAllEvents(numInt);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ParserException e) {
+                        throw new RuntimeException(e);
+                    } catch (GeneralSecurityException e) {
+                        throw new RuntimeException(e);
+                    }
                     Toast.makeText(MainActivity.this, "Le fichier a été téléchargé avec succès", Toast.LENGTH_SHORT).show();
                 }
             }
