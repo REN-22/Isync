@@ -47,33 +47,22 @@ public class main {
 
             // Récupérez le numéro et l'adresse e-mail des préférences
             int num = sharedPreferences.getInt("num", 0); // 0 est la valeur par défaut si "num" n'existe pas
-            String email = sharedPreferences.getString("email", ""); // "" est la valeur par défaut si "email" n'existe pas
+            // "" est la valeur par défaut si "email" n'existe pas
 
             // Planification de l'exécution de la méthode main()
-            scheduler.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    // Appeler la méthode code() ici
-                    code.exec(getApplicationContext(), num);
-                    try {
-                        gogle.deleteAllEvents(num);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ParserException e) {
-                        throw new RuntimeException(e);
-                    } catch (GeneralSecurityException e) {
-                        throw new RuntimeException(e);
-                    }
-                    code.modif(num);
-                    try {
-                        gogle.addAllEvents(num);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ParserException e) {
-                        throw new RuntimeException(e);
-                    } catch (GeneralSecurityException e) {
-                        throw new RuntimeException(e);
-                    }
+            scheduler.scheduleAtFixedRate(() -> {
+                // Appeler la méthode code() ici
+                code.exec(getApplicationContext(), num);
+                try {
+                    gogle.deleteAllEvents(num);
+                } catch (IOException | ParserException | GeneralSecurityException e) {
+                    throw new RuntimeException(e);
+                }
+                code.modif(num);
+                try {
+                    gogle.addAllEvents(num);
+                } catch (IOException | ParserException | GeneralSecurityException e) {
+                    throw new RuntimeException(e);
                 }
             }, nextExecutionTime.getTimeInMillis() - now.getTimeInMillis(), period, TimeUnit.MILLISECONDS);
 

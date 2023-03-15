@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,9 +24,6 @@ public class GoogleSignInManager extends MainActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
     }
 
-    public GoogleSignInClient getGoogleSignInClient() {
-        return mGoogleSignInClient;
-    }
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleSignInManager";
 
@@ -46,12 +42,9 @@ public class GoogleSignInManager extends MainActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
+        signInButton.setOnClickListener(v -> {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
 

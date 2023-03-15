@@ -11,10 +11,10 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Summary;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -74,7 +74,7 @@ public class code {
         try {
             File file = new File("PASTOUCHE/g" + num + "N.ics");
             CalendarBuilder builder = new CalendarBuilder();
-            Calendar calendar = builder.build(new FileInputStream(file));
+            Calendar calendar = builder.build(Files.newInputStream(file.toPath()));
 
             String[] INR = {"JAVA", "IHM", "QUALITER DEV", "C", "RÉSEAUX", "BASE DE DONNÉE", "GRAPHE", "STAT", "MÉTODE NUMÉRIQUE", "GESTION DE PROJET", "DROIT", "ANGLAIS", "COMMUNICATION"};
             String[] INS = {"SAÉ DÉVELOPEMENT D'UNE APP", "SAÉ ALGORITHME", "SAÉ RÉSEAU", "SAÉ BASE DE DONNÉE", "SAÉ GESTION DE PROJET", "SAÉ TRAVAIL D'ÉQUIPE"};

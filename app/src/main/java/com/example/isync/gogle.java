@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
@@ -74,14 +76,14 @@ public class gogle {
         // Créer un objet File pour le fichier ICS
         File file = new File("PASTOUCHE/g" + num + "N.ics");
         CalendarBuilder builder = new CalendarBuilder();
-        net.fortuna.ical4j.model.Calendar calendar = builder.build(new FileInputStream(file));
+        net.fortuna.ical4j.model.Calendar calendar = builder.build(Files.newInputStream(file.toPath()));
         List<VEvent> events = calendar.getComponents().stream()
                 .filter(component -> component.getName().equals("VEVENT"))
                 .map(component -> (VEvent) component)
                 .collect(Collectors.toList());
 
         // Ajouter les évènements à Google Calendar
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/Documents/ISYNC/certifica.json"))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(Files.newInputStream(Paths.get("C:/Users/renzo/Documents/ISYNC/certifica.json")))
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
         Calendar service = new Calendar.Builder(new NetHttpTransport(), JSON_FACTORY, (HttpRequestInitializer) credentials)
                 .setApplicationName(APPLICATION_NAME)
