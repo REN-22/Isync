@@ -8,6 +8,17 @@
     android:backgroundTint="#373737"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="127dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="63dp"
+        android:text="@string/connexion_google"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gXXXXinput"
+        tools:ignore="TextSizeCheck" />
+
     <EditText
         android:id="@+id/gXXXXinput"
         android:layout_width="369dp"
@@ -26,32 +37,14 @@
         tools:ignore="Deprecated,LabelFor,TextSizeCheck"
         tools:text="@string/gxxxx" />
 
-    <EditText
-        android:id="@+id/Emailinput"
-        android:layout_width="371dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="477dp"
-        android:autoText="true"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        android:text="@string/e_mail"
-        android:textColor="#90A4AE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="Deprecated,LabelFor,MissingConstraints" />
-
     <Button
         android:id="@+id/downloadBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="73dp"
         android:text="@string/download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Emailinput" />
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.isync;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.isyncIUT.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.Task;
+import com.google.api.services.calendar.CalendarScopes;
 
 import net.fortuna.ical4j.data.ParserException;
 
@@ -26,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         EditText inputNum = findViewById(R.id.gXXXXinput);
-        EditText inputmail = findViewById(R.id.Emailinput);
         Button downloadBtn = findViewById(R.id.downloadBtn);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String num = inputNum.getText().toString().trim();
-                String mail = inputmail.getText().toString().trim();
                 // Récupérer les préférences partagées
                 SharedPreferences sharedPreferences = getSharedPreferences("isync", MODE_PRIVATE);
 
@@ -41,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Ajouter les données à sauvegarder
                 editor.putString("numero", num);
-                editor.putString("email", mail);
 
                 // Enregistrer les modifications
                 editor.apply();

@@ -6,4 +6,5 @@
     <string name="num_ro_de_votre_calendrier_gxxxx">numéro de votre calendrier (gXXXX)</string>
     <string name="gxxxx">numéro de votre calendrier (gXXXX)</string>
     <string name="download">download</string>
+    <string name="connexion_google">connexion google</string>
 </resources>
