@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.isyncIUT.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -43,10 +44,7 @@ public class GoogleSignInManager extends MainActivity {
                 .requestScopes(new Scope(CalendarScopes.CALENDAR))
                 .build();
 
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // ...
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,17 +53,12 @@ public class GoogleSignInManager extends MainActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
-        // ...
     }
-
-// ...
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
@@ -83,6 +76,14 @@ public class GoogleSignInManager extends MainActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
+        }
+    }
+
+    private void updateUI(GoogleSignInAccount account) {
+        if (account != null) {
+            Toast.makeText(getApplicationContext(), "connection au compte réussie", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "la connétion a échouer", Toast.LENGTH_SHORT).show();
         }
     }
 }

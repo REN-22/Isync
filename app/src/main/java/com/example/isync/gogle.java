@@ -53,7 +53,7 @@ public class gogle {
             GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/Documents/ISYNC/certifica.json"))
                     .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
             Calendar service = new Calendar.Builder(new NetHttpTransport(), JSON_FACTORY, (HttpRequestInitializer) credentials)
-                    .setApplicationName(APPLICATION_NAME)
+                    .setApplicationName("Isync")
                     .build();
             String calendarId = "primary";
             for (VEvent event : events) {
