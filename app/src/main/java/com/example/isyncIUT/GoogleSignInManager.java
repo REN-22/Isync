@@ -1,4 +1,4 @@
-package com.example.isync;
+package com.example.isyncIUT;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.isyncIUT.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,7 +32,7 @@ public class GoogleSignInManager extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button signInButton = findViewById(R.id.downloadBtn);
+        Button signInButton = findViewById(R.id.signInButton);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

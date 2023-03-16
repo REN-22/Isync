@@ -1,4 +1,4 @@
-package com.example.isync;
+package com.example.isyncIUT;
 
 import android.app.Service;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.isync;
+package com.example.isyncIUT;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -31,7 +31,6 @@ public class code {
         new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... params) {
-                int num = params[0];
                 String fileName = "g" + num + "N.ics";
                 File directory = new File(context.getFilesDir(), "PASTOUCHE");
                 if (!directory.exists()) {

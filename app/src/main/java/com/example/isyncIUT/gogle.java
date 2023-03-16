@@ -1,4 +1,4 @@
-package com.example.isync;
+package com.example.isyncIUT;
 
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
