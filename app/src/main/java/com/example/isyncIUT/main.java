@@ -15,15 +15,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 public class main {
 
     public main() {
     }
 
-    public static class MonService extends Service {
+    public class MonService extends Service {
 
-        public int onStartCommand(Intent intent, int flags, int startId, int number) {
+        public int onStartCommand(Intent intent, int flags, int startId) {
             // Création de l'objet pour planifier l'exécution
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -47,29 +46,33 @@ public class main {
 
             // Récupérez le numéro et l'adresse e-mail des préférences
             int num = sharedPreferences.getInt("num", 0); // 0 est la valeur par défaut si "num" n'existe pas
-            // "" est la valeur par défaut si "email" n'existe pas
 
             // Planification de l'exécution de la méthode main()
             scheduler.scheduleAtFixedRate(() -> {
                 // Appeler la méthode code() ici
-                code.exec(getApplicationContext(), num);
-                try {
-                    gogle.deleteAllEvents(num);
-                } catch (IOException | ParserException | GeneralSecurityException e) {
-                    throw new RuntimeException(e);
-                }
-                code.modif(num);
-                try {
-                    gogle.addAllEvents(num);
-                } catch (IOException | ParserException | GeneralSecurityException e) {
-                    throw new RuntimeException(e);
-                }
+                code.exec(this, num, (code.CodeExecutionListener) main.this);
+                runAfterExec(num);
             }, nextExecutionTime.getTimeInMillis() - now.getTimeInMillis(), period, TimeUnit.MILLISECONDS);
 
 
             // N'oubliez pas d'arrêter le service en appelant la méthode stopSelf() lorsque vous avez terminé
             stopSelf();
             return START_NOT_STICKY;
+        }
+
+
+        private void runAfterExec(int num) {
+            try {
+                gogle.deleteAllEvents(num);
+            } catch (IOException | ParserException | GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            }
+            code.modif(num);
+            try {
+                gogle.addAllEvents(num);
+            } catch (IOException | ParserException | GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            }
         }
 
 

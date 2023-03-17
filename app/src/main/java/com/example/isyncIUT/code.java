@@ -1,7 +1,9 @@
 package com.example.isyncIUT;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.CalendarOutputter;
@@ -22,46 +24,49 @@ import okhttp3.Response;
 
 public class code {
 
+    public interface CodeExecutionListener {
+        void onExecuted(int numInt);
+    }
     /**
      * telecharge le fhichier ICS
      *
      * @param num le numéro du fichier ICS
      */
-    public static void exec(Context context, int num) {
-        new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... params) {
-                String fileName = "g" + num + "N.ics";
-                File directory = new File(context.getFilesDir(), "PASTOUCHE");
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-                File file = new File(directory, fileName);
+    public static void exec(Context context, int num, CodeExecutionListener listener) {
+        String fileName = "g" + num + "N.ics";
+        File directory = new File(context.getFilesDir(), "PASTOUCHE");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        File file = new File(directory, fileName);
 
-                String url = "https://edt.iut-tlse3.fr/planning/info/g" + num + ".ics";
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-                        InputStream inputStream = response.body().byteStream();
-                        FileOutputStream outputStream = new FileOutputStream(file);
-                        byte[] buffer = new byte[4096];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-                        outputStream.close();
-                        inputStream.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        String url = "https://edt.iut-tlse3.fr/planning/info/g" + num + ".ics";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                InputStream inputStream = response.body().byteStream();
+                FileOutputStream outputStream = new FileOutputStream(file);
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
                 }
-                return null;
+                outputStream.close();
+                inputStream.close();
             }
-        }.execute(num);
+            if (file.exists()) {
+                System.out.println("Le fichier " + file.getAbsolutePath() + " a été téléchargé avec succès et est présent dans le répertoire.");
+            } else {
+                System.out.println("Le téléchargement du fichier a échoué ou le fichier est introuvable.");
+            }
+            listener.onExecuted(num);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -70,8 +75,13 @@ public class code {
      * @param num le numéro du fichier ICS
      */
     public static void modif(int num) {
+
         try {
-            File file = new File("PASTOUCHE/g" + num + "N.ics");
+            @SuppressLint("SdCardPath") File file = new File("/data/user/0/com.example.isyncIUT/files/PASTOUCHE/g" + num + "N.ics");
+            if (!file.exists()) {
+                System.err.println("Le fichier " + file.getAbsolutePath() + " n'existe pas. modif");
+                return;
+            }
             CalendarBuilder builder = new CalendarBuilder();
             Calendar calendar = builder.build(Files.newInputStream(file.toPath()));
 
@@ -107,23 +117,6 @@ public class code {
                             summary.setValue(summaryValue);
                         }
                     }
-                }
-            }
-
-            if (file.delete()) {
-                System.out.println("Le fichier a été supprimé avec succès.");
-            } else {
-                System.out.println("Impossible de supprimer le fichier.");
-            }
-
-            File oldFile = new File("PASTOUCHE/g" + num + "N.ics");
-            File newFile = new File("PASTOUCHE/g" + num + "O.ics");
-            if (oldFile.exists()) {
-                boolean renamed = oldFile.renameTo(newFile);
-                if (renamed) {
-                    System.out.println("File renamed successfully.");
-                } else {
-                    System.out.println("File renaming failed.");
                 }
             }
 

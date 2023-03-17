@@ -1,5 +1,7 @@
 package com.example.isyncIUT;
 
+import android.annotation.SuppressLint;
+
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -37,9 +39,9 @@ public class gogle {
      */
     public static void deleteAllEvents(int num) throws IOException, ParserException, GeneralSecurityException {
         // Créer un objet File pour le fichier ICS
-        File file = new File("PASTOUCHE/g" + num + "O.ics");
+        @SuppressLint("SdCardPath") File file = new File("/data/user/0/com.example.isyncIUT/files/PASTOUCHE/g" + num + "O.ics");
         if (!file.exists()) {
-            System.err.println("Le fichier " + file.getAbsolutePath() + " n'existe pas.");
+            System.err.println("Le fichier " + file.getAbsolutePath() + " n'existe pas. deleteAllEvents");
             return;
         }
 
@@ -74,7 +76,11 @@ public class gogle {
      */
     public static void addAllEvents(int num) throws IOException, ParserException, GeneralSecurityException {
         // Créer un objet File pour le fichier ICS
-        File file = new File("PASTOUCHE/g" + num + "N.ics");
+        @SuppressLint("SdCardPath") File file = new File("/data/user/0/com.example.isyncIUT/files/PASTOUCHE/g" + num + "N.ics");
+        if (!file.exists()) {
+            System.err.println("Le fichier " + file.getAbsolutePath() + " n'existe pas. addAllEvents");
+            return;
+        }
         CalendarBuilder builder = new CalendarBuilder();
         net.fortuna.ical4j.model.Calendar calendar = builder.build(Files.newInputStream(file.toPath()));
         List<VEvent> events = calendar.getComponents().stream()
@@ -99,5 +105,4 @@ public class gogle {
             service.events().insert(calendarId, googleEvent).execute();
         }
     }
-
 }
