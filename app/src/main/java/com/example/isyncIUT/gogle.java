@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class gogle {
@@ -45,7 +46,7 @@ public class gogle {
         }
 
         // Charger les identifiants d'authentification depuis le fichier JSON
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/AndroidStudioProjects/Isync/app/certifica.json"))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(gogle.class.getClassLoader()).getResourceAsStream("app/src/main/java/com/example/isyncIUT/certifica.json"))
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
 
         // Créer l'objet service pour l'API Google Calendar
@@ -88,7 +89,7 @@ public class gogle {
         }
 
         // Charger les identifiants d'authentification depuis le fichier JSON
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/AndroidStudioProjects/Isync/app/certifica.json"))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(gogle.class.getClassLoader()).getResourceAsStream("app/src/main/java/com/example/isyncIUT/certifica.json"))
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
 
         // Créer l'objet service pour l'API Google Calendar
