@@ -4,7 +4,8 @@ import android.annotation.SuppressLint;
 
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
@@ -21,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 
 public class gogle {
 
-    private static final String APPLICATION_NAME = "iSync";
-    private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
     /**
      * Supprime tous les événements d'un fichier ICS de Google Calendar.
@@ -45,6 +44,18 @@ public class gogle {
             return;
         }
 
+        // Charger les identifiants d'authentification depuis le fichier JSON
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/AndroidStudioProjects/Isync/app/certifica.json"))
+                .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+
+        // Créer l'objet service pour l'API Google Calendar
+        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credentials)
+                .setApplicationName("Isync")
+                .build();
+
+        // Obtenir l'identifiant du calendrier "primary"
+        String calendarId = "primary";
+
         try {
             CalendarBuilder builder = new CalendarBuilder();
             net.fortuna.ical4j.model.Calendar calendar = builder.build(new FileInputStream(file));
@@ -54,12 +65,6 @@ public class gogle {
                     .collect(Collectors.toList());
 
             // Supprimer les évènements de Google Calendar
-            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/Documents/ISYNC/certifica.json"))
-                    .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
-            Calendar service = new Calendar.Builder(new NetHttpTransport(), JSON_FACTORY, (HttpRequestInitializer) credentials)
-                    .setApplicationName("Isync")
-                    .build();
-            String calendarId = "primary";
             for (VEvent event : events) {
                 String eventId = event.getUid().getValue();
                 service.events().delete(calendarId, eventId).execute();
@@ -81,6 +86,19 @@ public class gogle {
             System.err.println("Le fichier " + file.getAbsolutePath() + " n'existe pas. addAllEvents");
             return;
         }
+
+        // Charger les identifiants d'authentification depuis le fichier JSON
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/renzo/AndroidStudioProjects/Isync/app/certifica.json"))
+                .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+
+        // Créer l'objet service pour l'API Google Calendar
+        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credentials)
+                .setApplicationName("Isync")
+                .build();
+
+        // Obtenir l'identifiant du calendrier "primary"
+
+        String calendarId = "primary";
         CalendarBuilder builder = new CalendarBuilder();
         net.fortuna.ical4j.model.Calendar calendar = builder.build(Files.newInputStream(file.toPath()));
         List<VEvent> events = calendar.getComponents().stream()
@@ -89,12 +107,6 @@ public class gogle {
                 .collect(Collectors.toList());
 
         // Ajouter les évènements à Google Calendar
-        GoogleCredentials credentials = GoogleCredentials.fromStream(Files.newInputStream(Paths.get("C:/Users/renzo/Documents/ISYNC/certifica.json")))
-                .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
-        Calendar service = new Calendar.Builder(new NetHttpTransport(), JSON_FACTORY, (HttpRequestInitializer) credentials)
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-        String calendarId = "primary";
         for (VEvent event : events) {
             Event googleEvent = new Event();
             googleEvent.setSummary(event.getSummary().getValue());
