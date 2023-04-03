@@ -4,10 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,11 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
 import net.fortuna.ical4j.data.ParserException;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import javax.annotation.Nullable;
 
 
 public class MainActivity extends AppCompatActivity implements code.CodeExecutionListener {
@@ -32,6 +42,22 @@ public class MainActivity extends AppCompatActivity implements code.CodeExecutio
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GoogleSignInManager.RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            GoogleSignInManager.handleSignInResult(task);
+            GoogleSignInAccount account = task.getResult();
+            if (account != null) {
+                // L'utilisateur est connecté avec succès
+                // Vous pouvez utiliser account.getIdToken() pour récupérer le jeton d'identification Google
+            } else {
+                // La connexion a échoué
+            }
+        }
+    }
 
     // Vérifie si l'application a l'autorisation d'accéder au stockage externe
     public static boolean checkStoragePermission(Activity activity) {

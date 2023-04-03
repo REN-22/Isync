@@ -2,6 +2,10 @@ package com.example.isyncIUT;
 
 import android.annotation.SuppressLint;
 
+import com.google.api.client.auth.oauth2.Credential;;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpExecuteInterceptor;
+import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -45,12 +49,16 @@ public class gogle {
             return;
         }
 
-        // Charger les identifiants d'authentification depuis le fichier JSON
-        GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(gogle.class.getClassLoader()).getResourceAsStream("app/src/main/java/com/example/isyncIUT/certifica.json"))
-                .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+        // Créer un objet GoogleCredential à partir de l'ID client et du secret client
+        Credential credential = new GoogleCredential.Builder()
+                .setTransport(new NetHttpTransport())
+                .setJsonFactory(new GsonFactory())
+                .setClientSecrets("98212799430-23l7j645atjimd6vbprdamt3t9bgjmqh.apps.googleusercontent.com", null)
+                .build()
+                .setAccessToken(ACCESS_TOKEN);
 
         // Créer l'objet service pour l'API Google Calendar
-        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credentials)
+        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credential)
                 .setApplicationName("Isync")
                 .build();
 
@@ -88,12 +96,16 @@ public class gogle {
             return;
         }
 
-        // Charger les identifiants d'authentification depuis le fichier JSON
-        GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(gogle.class.getClassLoader()).getResourceAsStream("app/src/main/java/com/example/isyncIUT/certifica.json"))
-                .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+        // Créer un objet GoogleCredential à partir de l'ID client et du secret client
+        Credential credential = new GoogleCredential.Builder()
+                .setTransport(new NetHttpTransport())
+                .setJsonFactory(new GsonFactory())
+                .setClientSecrets("98212799430-23l7j645atjimd6vbprdamt3t9bgjmqh.apps.googleusercontent.com", null)
+                .build()
+                .setAccessToken(ACCESS_TOKEN);
 
         // Créer l'objet service pour l'API Google Calendar
-        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credentials)
+        Calendar service = new Calendar.Builder(new NetHttpTransport(), jsonFactory, (HttpRequestInitializer) credential)
                 .setApplicationName("Isync")
                 .build();
 
