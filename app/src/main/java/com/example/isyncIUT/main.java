@@ -19,7 +19,6 @@ public class main {
 
     public main() {
     }
-
     public class MonService extends Service {
 
         public int onStartCommand(Intent intent, int flags, int startId) {
@@ -60,21 +59,11 @@ public class main {
             return START_NOT_STICKY;
         }
 
-
         private void runAfterExec(int num) {
-            try {
-                gogle.deleteAllEvents(num);
-            } catch (IOException | ParserException | GeneralSecurityException e) {
-                throw new RuntimeException(e);
-            }
             code.modif(num);
-            try {
-                gogle.addAllEvents(num);
-            } catch (IOException | ParserException | GeneralSecurityException e) {
-                throw new RuntimeException(e);
-            }
+            code myObject = new code(this);
+            myObject.insert(num);
         }
-
 
         @Override
         public IBinder onBind(Intent intent) {
@@ -82,5 +71,4 @@ public class main {
             return null;
         }
     }
-
 }

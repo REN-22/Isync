@@ -36,28 +36,12 @@ import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity implements code.CodeExecutionListener {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-
+    private static final int REQUEST_CODE = 123;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GoogleSignInManager.RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            GoogleSignInManager.handleSignInResult(task);
-            GoogleSignInAccount account = task.getResult();
-            if (account != null) {
-                // L'utilisateur est connecté avec succès
-                // Vous pouvez utiliser account.getIdToken() pour récupérer le jeton d'identification Google
-            } else {
-                // La connexion a échoué
-            }
-        }
-    }
 
     // Vérifie si l'application a l'autorisation d'accéder au stockage externe
     public static boolean checkStoragePermission(Activity activity) {
@@ -74,9 +58,13 @@ public class MainActivity extends AppCompatActivity implements code.CodeExecutio
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // L'autorisation a été accordée, vous pouvez accéder au stockage externe
-        // L'autorisation a été refusée
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // La permission a été accordée, vous pouvez maintenant accéder au calendrier
+            } else {
+                // La permission a été refusée
+            }
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -84,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements code.CodeExecutio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR }, REQUEST_CODE);
+        }
 
         EditText inputNum = findViewById(R.id.gXXXXinput);
         Button downloadBtn = findViewById(R.id.downloadBtn);
@@ -127,20 +120,16 @@ public class MainActivity extends AppCompatActivity implements code.CodeExecutio
                     }
                 }.execute(numInt);
             }
+            code.modif(Integer.parseInt(num));
+            code myObject = new code(this);
+            myObject.insert(Integer.parseInt(num));
         });
     }
+
     @Override
     public void onExecuted(int numInt) {
-        try {
-            gogle.deleteAllEvents(numInt);
-        } catch (IOException | ParserException | GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
-        code.modif(numInt);
-        try {
-            gogle.addAllEvents(numInt);
-        } catch (IOException | ParserException | GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
+
     }
+
+
 }
